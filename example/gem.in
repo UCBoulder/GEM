@@ -1,0 +1,157 @@
+&primary_parameters
+itube=0       !0: global simulation; 1: flux tube 
+imx=128       !number of grid points along x direction
+jmx=128       !number of grid points along y direction
+kmx=64        !number of grid points along z direction, the primary domain decomposition. 
+micell=32     !total no of marker particles of ions
+mecell=64     !total no of marker particles of electrons
+nsmx=2        !maximum number if impurity ions
+nsm=2         !number of ion species
+
+ntube=4       !calculated from numprocs and km
+lxa=0.3       !radial box size divided by a
+r0a=0.8       !r0/a; center of the radial domain
+lymult=8      !the lowest nonzero toroidal mode number, Ly=2*pi*r0/q0/lymult
+jcnt=23       !number of toroidal mode numbers.  +n and -n count as two different modes, plus the n=0 mode
+dt=1.0         !times steps in units of omega_u=eB/mp
+nm=175000       !total no of times steps
+
+amp=1e-3      !amplitude of initial weight defined in loading (loadi and ldel)
+isg=1.0       !split weigh factor, almost always 1.0
+ifluid=1      !0: no kinetic electron; 1: invokes kinetic electron
+ifullfbm=0    !full-f beam ions
+cn0b=0.0e-3     !volume-averaged beam density
+
+ipbm=0
+ias=1
+
+amie=1800.    !proton to electron mass ratio
+rneui=0e-4    !ion electron(?) collision frequency
+betai=1.e-3   !electron beta
+
+nonlin1=1     !switch for ion nl terms. 0: linear; 1: nl
+nonlin2=1     !
+nonline=1     !switch for electron nonlinear terms. 0: linear; 1: nonlinear
+nonlinb=0
+iflut=1       !1 always to keep the magnetic flutter component v_||delB/B in x and y component of velocity/drift 
+iexb=1
+ipara=0       !switch to take in to parallel non-linearity. 0: exclude; 1: include
+isonew=0      !=1 to include 1-w in weight equation
+
+vcut=15.      !Particles with kinetic energy exceeding vcutt*T(r) are not counted during deposition 
+wecut=16.0     !electron weight cut-off parameter
+
+mimp=2        !mass ratio of ions with respect to to protons
+mcmp=12        !mass ratio of impurities with respect to to protons
+chgi=1        !charge of ions with respect to to electron charge
+chgc=6        !charge of impurity ions with respect to electron charge
+mbeam=2.      !mass of beam
+qbeam=1.         !charge of beam ions=1, N
+/
+&control_parameters
+iperi=0       !1: periodic boundary condition for potentials
+iperidf=0     !1: periodic boundary condition for particles
+peritr=0      !
+
+delra=0.05
+delri=0.0
+delre=0.0
+delrn=0.0
+nlow=1        !toroidal modes with Fourier index 0<j<nlow are filtered 
+xshape=1.0    !gaussian filter used in flux-tube nonlinear simulation along x
+yshape=1.0    !gaussian filter used in nonlinear simulation along y
+zshape=137.44 !gaussian filter used in nonlinear simulation along z
+c4=2.0        !Gaussian filter is epx(-b2^c4)
+iput=1        !save files for restart, iput=1 always
+iget=1        !iget=1 to read from dump files during a restart run
+igetmx=1      !igetmx=1 to read from savede matrix files
+ision=1       !always 1, calculates ion contributions to current and density
+isiap=0       !switch for the ion skin current in Ampere's law
+isbeam=1      !full-f beam
+
+llk=0         !radial wavenumber index for some diagnostics
+mlk=1         !binormal wavenumber index for some diagnostics
+onemd=0       !onemd=1 keeps only one mode in y, e.g. in linear n-scan
+izonal=1      !0: remove the zonal component
+
+adiabatic_electron=0    !adiabatic electron options. 0: non; 1: adiabatic
+ineq0=1       !ineq0=0 to remove n=0 
+nzcrt=2       !the kx components to be removed from n=0 component. All i<nzcrt components are removed
+npze=1        !used to define maximum change in electron toroidal canonical momentum pzcrite, for marker control
+npzi=1        !for main ion
+npzc=1       !for the impurity
+npzb=1       !for the beam
+iphbf=0       !1, use blending function for phi
+iapbf=0       !1, use blending function for A_{||}
+idpbf=0       !1, use blending flunction for d\phi/dt; 0 always  
+cut=1.0       !used in restart, redefines weight as weight/cut
+
+kxcut=1.0     !cut off value for kx
+kycut=1.0     !cut off value for ky
+bcut=3000.    !cut off value for aruguments of Bessel function, used in flux-tube runs
+
+vexbsw=0.     !switch for equilibrium EXB shear 
+vparsw=0.     !switch for equilibrium parallel flow
+mach=0.       !value with respect to ion sound speed, used to define flow
+gamma_E=0.066 !EXB shearing rate, given in cs/a
+
+isuni=0       !0 always. Used earlier for uniform loading
+isunie=0
+lr1=4         !is the number of points for gyro averaging. 4 always in gem.in
+iflr=1        !always 1. To include the finite Larmor radius effect of the ions; used in ppush, cpush, grid1, jie
+iorb=1        !always 1. To include finite orbit width term (??). Multiplied to the magnetic drift terms in               !ppush an cpush
+
+nxsrc=100      !number of bins in x for source
+nesrc=200      !number of bins in eps for source
+nzsrc=0
+gammah=1e-4   !orb5 heat source rate
+ghzon=0e-2
+gamgtc=0e-4   !gtc heat source rate
+gamtoy=0e-5   !toy heat source rate 
+nzgyro=4
+gamgyro=0e-2  !GYRO source in Candy2020PPCF
+/
+&diagnostics_parameters
+icrs_sec=0    !used in global codes to plot poloidal cross-section .
+              !1: when to get the plot; 0: otherwise.
+ipg=100       !which snapshot to get
+isphi=1       !which potential to plot. 0 for A_||; 1 for phi
+nplot=100     !the interval in time steps, at which the data are stored for contour plots and other post-processing stuff
+xnplt=10       !the interval in time steps at which spec and dchi called to calculate potentials, weight, fluxes and other stuff
+isft=0        !if isft=1, code calculates the real frequency 
+mynf=10       !nfreq=kmx*mynf no of points in in Fourier transform
+frmax=0.005   !maximum range of frequency
+ifskp=10      !used in yveck1 and ftcamp,  nsize=nm/ifskp
+idg=0         !0 always; 1, writes various component to the output file run.out
+/
+&fluxtube
+lxmult=4      !lx=lxmult/(lymult*q')
+Rovera=2.778  !aspect ratio, ratio of major radius to minor radius
+elon0=1.      !elongation, stretch up-down
+selon0=0.0    !radial variation of elongation
+tria0=0.      !triangularity: stretch radially outward
+stria0=0.     !radial variation of triangularity
+rmaj0p=-0.0   !measure of Shafranov shift
+q0=1.4        !safety factor 
+shat0=0.78     !shear
+teti=1.0      !ratio of electron temperature to ion temperature
+tcti=1.0      !ratio of impurity temperature to ion temperature
+rhoia=0.00393 !rhos/a
+Rovlni=2.2   !ion density gradient scale length normalized to major radius
+Rovlti=6.9   !ion temperature gradient scale length normalized to major radius
+Rovlne=2.2   !electron density gradient scale length normalized to major radius
+Rovlte=6.9   !electron temperature gradient scale length normalized to major radius
+Rovlnc=12.     !impurity density gradient scale length normalized to major radius
+Rovltc=0.     !impurity temperature gradient scale length normalized to major radius
+ncne=1.0e-8   !measure of impurity concentration, ratio of impurity to electron density
+nuacs=3.0e-3    !electron ion collision frequency???
+/
+&others
+nrst=1000     !sets the interval in time steps after which the coarse graining is to be invoked  
+eprs=0.0      !the parameter for coarse graining
+tor=1.        !always set 1 in gem.in.
+vpp=0.000     !
+vt0=0.
+yd0=0.00
+nmx=200000    !maximum number of time steps
+/
